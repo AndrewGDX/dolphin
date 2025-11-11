@@ -246,14 +246,11 @@ void GameConfigWidget::CreateWidgets()
     m_prev_tab_index = index;
   });
 
-//  connect(m_depth_slider, &ConfigFloatSlider::valueChanged, this, [this, slider] {
-//    if (slider)
-//      m_depth_slider_value->setText(QString::asprintf("%.0f%%", slider->GetValue()));
-//  });
-  connect(m_depth_slider, &ConfigFloatSlider::valueChanged, this, [this] {
+  connect(m_depth_slider, &ConfigFloatSlider::valueChanged, this, [this, m_depth_slider_value] {
     m_depth_slider_value->setText(QString::asprintf("%.0f%%", m_depth_slider->GetValue()));
   });
-  connect(m_convergence_slider, &ConfigFloatSlider::valueChanged, this, [this] {
+  connect(m_convergence_slider, &ConfigFloatSlider::valueChanged, this,
+          [this, m_convergence_slider_value] {
     m_convergence_slider_value->setText(QString::asprintf("%.2f", m_convergence_slider->GetValue()));
   });
 
