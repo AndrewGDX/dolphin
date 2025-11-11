@@ -52,9 +52,7 @@ private:
 
   ConfigStringChoice* m_deterministic_dual_core;
   ConfigFloatSlider* m_depth_slider;
-  ConfigFloatSlider* m_convergence_spin;
-  QLabel* m_depth_slider_value;
-  QLabel* m_convergence_spin_value;
+  ConfigFloatSlider* m_convergence_slider;
 
   const UICommon::GameFile& m_game;
   std::string m_game_id;

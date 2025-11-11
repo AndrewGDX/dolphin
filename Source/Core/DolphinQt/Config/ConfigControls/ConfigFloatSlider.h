@@ -4,7 +4,6 @@
 #pragma once
 
 #include <QLabel>
-#include <QPointer>
 
 #include "DolphinQt/Config/ConfigControls/ConfigControl.h"
 #include "DolphinQt/Config/ToolTipControls/ToolTipSlider.h"
@@ -35,11 +34,6 @@ private:
 
 class ConfigFloatLabel final : public QLabel
 {
-  Q_OBJECT
-
 public:
   ConfigFloatLabel(const QString& text, ConfigFloatSlider* widget);
-
-private:
-  QPointer<ConfigFloatSlider> m_widget;
 };

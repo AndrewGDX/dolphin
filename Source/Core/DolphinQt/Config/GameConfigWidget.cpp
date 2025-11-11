@@ -142,15 +142,15 @@ void GameConfigWidget::CreateWidgets()
 
   m_depth_slider =
       new ConfigFloatSlider(100, 200, Config::GFX_STEREO_DEPTH_PERCENTAGE, 1.0f, layer);
-  m_convergence_spin = new ConfigFloatSlider(0, 1000, Config::GFX_STEREO_CONVERGENCE, 0.01f, layer);
-  m_depth_slider_value = new QLabel();
-  m_convergence_spin_value = new QLabel();
+  m_convergence_slider = new ConfigFloatSlider(0, 1000, Config::GFX_STEREO_CONVERGENCE, 0.01f, layer);
+  auto* m_depth_slider_value = new QLabel();
+  auto* m_convergence_slider_value = new QLabel();
   m_use_monoscopic_shadows =
       new ConfigBool(tr("Monoscopic Shadows"), Config::GFX_STEREO_EFB_MONO_DEPTH, layer);
 
   m_depth_slider->SetDescription(
       tr("This value is multiplied with the depth set in the graphics configuration."));
-  m_convergence_spin->SetDescription(
+  m_convergence_slider->SetDescription(
       tr("This value is added to the convergence value set in the graphics configuration."));
   m_use_monoscopic_shadows->SetDescription(
       tr("Use a single depth buffer for both eyes. Needed for a few games."));
@@ -159,13 +159,13 @@ void GameConfigWidget::CreateWidgets()
                                 0);
   stereoscopy_layout->addWidget(m_depth_slider, 0, 1);
   stereoscopy_layout->addWidget(m_depth_slider_value, 0, 2);
-  stereoscopy_layout->addWidget(new ConfigFloatLabel(tr("Convergence:"), m_convergence_spin), 1, 0);
-  stereoscopy_layout->addWidget(m_convergence_spin, 1, 1);
-  stereoscopy_layout->addWidget(m_convergence_spin_value, 1, 2);
+  stereoscopy_layout->addWidget(new ConfigFloatLabel(tr("Convergence:"), m_convergence_slider), 1, 0);
+  stereoscopy_layout->addWidget(m_convergence_slider, 1, 1);
+  stereoscopy_layout->addWidget(m_convergence_slider_value, 1, 2);
   stereoscopy_layout->addWidget(m_use_monoscopic_shadows, 2, 0);
 
   m_depth_slider_value->setText(QString::asprintf("%.0f%%", m_depth_slider->GetValue()));
-  m_convergence_spin_value->setText(QString::asprintf("%.2f", m_convergence_spin->GetValue()));
+  m_convergence_slider_value->setText(QString::asprintf("%.2f", m_convergence_slider->GetValue()));
 
   auto* general_layout = new QVBoxLayout;
   general_layout->addWidget(core_box);
@@ -246,11 +246,12 @@ void GameConfigWidget::CreateWidgets()
     m_prev_tab_index = index;
   });
 
-  connect(m_depth_slider, &ConfigFloatSlider::valueChanged, this, [this] {
+  connect(m_depth_slider, &ConfigFloatSlider::valueChanged, this, [this, m_depth_slider_value] {
     m_depth_slider_value->setText(QString::asprintf("%.0f%%", m_depth_slider->GetValue()));
   });
-  connect(m_convergence_spin, &ConfigFloatSlider::valueChanged, this, [this] {
-    m_convergence_spin_value->setText(QString::asprintf("%.2f", m_convergence_spin->GetValue()));
+  connect(m_convergence_slider, &ConfigFloatSlider::valueChanged, this,
+          [this, m_convergence_slider_value] {
+    m_convergence_slider_value->setText(QString::asprintf("%.2f", m_convergence_slider->GetValue()));
   });
 
   const QString help_msg = tr(
@@ -334,7 +335,7 @@ void GameConfigWidget::LoadSettings()
   update_bool(m_emulate_disc_speed, true);
 
   update_int(m_depth_slider);
-  update_int(m_convergence_spin);
+  update_int(m_convergence_slider);
 }
 
 void GameConfigWidget::SetItalics()
